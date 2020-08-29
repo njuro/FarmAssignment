@@ -58,12 +58,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- SECURITY -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
         <!-- TESTING -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -157,13 +151,6 @@
                                     <includes>.*</includes>
                                     <inputSchema>public</inputSchema>
                                 </database>
-                                <generate>
-                                    <pojos>true</pojos>
-                                    <pojosEqualsAndHashCode>
-                                        true
-                                    </pojosEqualsAndHashCode>
-                                    <pojosToString>true</pojosToString>
-                                </generate>
                                 <target>
                                     <packageName>
                                         cz.cleverfarm.interview.farmassignment.generated

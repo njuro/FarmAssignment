@@ -1,12 +1,8 @@
-package cz.cleverfarm.interview.farmassignment
+package cz.cleverfarm.interview.farmassignment.field
 
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class FarmService @Autowired constructor(val create: DSLContext) {
-
-    fun getAll() {
-    }
-}
+class FieldService @Autowired constructor(private val jooq: DSLContext)
