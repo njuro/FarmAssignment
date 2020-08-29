@@ -25,9 +25,13 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
         return farms
     }
 
-    fun findFarmById(id: UUID): FarmDto? {
-        val farm = jooq.fetchOne(FARM.where(FARM.ID.eq(id))).into(FarmDto::class.java) ?: return null
-        farm.fields = jooq.fetch(FIELD.where(FIELD.FARM_ID.eq(farm.id))).into(FieldDto::class.java)
+    fun findFarmById(id: UUID, fetchFields: Boolean = false): FarmDto? {
+        val farmRecord = jooq.fetchOne(FARM.where(FARM.ID.eq(id))) ?: return null
+        val farm = farmRecord.into(FarmDto::class.java)
+        if (fetchFields) {
+            farm.fields = jooq.fetch(FIELD.where(FIELD.FARM_ID.eq(farm.id))).into(FieldDto::class.java)
+        }
+
         return farm
     }
 

@@ -26,7 +26,8 @@ class FarmRestController @Autowired constructor(private val farmService: FarmSer
 
     @GetMapping(FARM_ID_VARIABLE)
     fun findFarm(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID): FarmDto {
-        return farmService.findFarmById(farmId) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
+        return farmService.findFarmById(farmId, fetchFields = true)
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
     }
 
     @PostMapping(FARM_ID_VARIABLE)
