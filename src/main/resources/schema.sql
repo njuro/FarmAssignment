@@ -1,8 +1,4 @@
-drop table if exists field;
-drop table if exists farm;
-drop table if exists country;
-
-create table farm
+create table if not exists farm
 (
     id         uuid                     not null,
     name       varchar(255)             not null,
@@ -12,7 +8,7 @@ create table farm
     primary key (id)
 );
 
-create table field
+create table if not exists field
 (
     id         uuid                     not null,
     name       varchar(255)             not null,
@@ -23,7 +19,7 @@ create table field
     primary key (id)
 );
 
-create table country
+create table if not exists country
 (
     iso3 varchar(3),
     wkb  geometry(MultiPolygon, 4326),
@@ -31,10 +27,12 @@ create table country
     primary key (iso3)
 );
 
-create index country_wkb_idx
+create index if not exists country_wkb_idx
     on country USING GIST (wkb);
 
 
+alter table if exists field
+    drop constraint if exists fk_field_farm;
 alter table if exists field
     add constraint fk_field_farm
         foreign key (farm_id)
