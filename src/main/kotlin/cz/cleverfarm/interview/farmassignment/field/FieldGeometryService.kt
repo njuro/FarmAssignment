@@ -42,21 +42,26 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
             throw FormValidationException(WKT_FIELD, "Field's area must be positive number")
         }
 
-        val overlapping = jooq.select(DSL.count()).from(Field.FIELD).where("ST_INTERSECTS({0}, ST_GEOMFROMTEXT({1}, $SRID))", Field.FIELD.GEOM, geom.toText()).fetchOneInto(Integer::class.java)
+        val overlapping = jooq.select(DSL.count()).from(Field.FIELD)
+            .where("ST_INTERSECTS({0}, ST_GEOMFROMTEXT({1}, $SRID))", Field.FIELD.GEOM, geom.toText())
+            .fetchOneInto(Integer::class.java)
         if (overlapping > 0) {
             throw FormValidationException(WKT_FIELD, "Field overlaps with existing field")
         }
 
         if (countryCode != null && !geom.within(getCountryGeometry(countryCode))) {
-            throw FormValidationException(WKT_FIELD, "Field must be entirely within country with following code: $countryCode")
+            throw FormValidationException(
+                WKT_FIELD,
+                "Field must be entirely within country with following code: $countryCode"
+            )
         }
     }
 
     private fun getCountryGeometry(countryCode: String): Geometry {
         return jooq.select(Country.COUNTRY.WKB)
-                .from(Country.COUNTRY)
-                .where(Country.COUNTRY.ISO3.equalIgnoreCase(countryCode))
-                .fetchOneInto(Geometry::class.java)
-                ?: throw IllegalArgumentException("Invalid country code: $countryCode")
+            .from(Country.COUNTRY)
+            .where(Country.COUNTRY.ISO3.equalIgnoreCase(countryCode))
+            .fetchOneInto(Geometry::class.java)
+            ?: throw IllegalArgumentException("Invalid country code: $countryCode")
     }
 }

@@ -9,5 +9,4 @@ class FarmAssignmentApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

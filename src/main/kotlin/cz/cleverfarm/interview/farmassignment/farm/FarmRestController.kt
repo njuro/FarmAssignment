@@ -6,9 +6,16 @@ import cz.cleverfarm.interview.farmassignment.common.FARM_ID_VARIABLE_NAME
 import cz.cleverfarm.interview.farmassignment.common.FARM_NOT_FOUND
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
-import java.util.*
+import java.util.UUID
 import javax.validation.Valid
 
 @RestController
@@ -28,19 +35,20 @@ class FarmRestController @Autowired constructor(private val farmService: FarmSer
     @GetMapping(FARM_ID_VARIABLE)
     fun findFarm(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID): FarmDto {
         return farmService.findFarmById(farmId, fetchFields = true)
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
     }
 
     @PostMapping(FARM_ID_VARIABLE)
-    fun updateFarm(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID, @Valid @RequestBody updatedFarm: FarmForm): FarmDto {
+    fun updateFarm(
+        @PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID,
+        @Valid @RequestBody updatedFarm: FarmForm
+    ): FarmDto {
         return farmService.updateFarm(farmId, updatedFarm)
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
     }
 
     @DeleteMapping(FARM_ID_VARIABLE)
     fun deleteFarm(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID) {
         farmService.deleteFarm(farmId) || throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
     }
-
-
 }

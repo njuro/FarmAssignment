@@ -12,8 +12,10 @@ class ValidationExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleMethodArgumentValidationException(ex: MethodArgumentNotValidException): ValidationErrorResponse {
-        return ValidationErrorResponse(ex.bindingResult.fieldErrors
-                .associateBy({ it.field }, { it.defaultMessage }))
+        return ValidationErrorResponse(
+            ex.bindingResult.fieldErrors
+                .associateBy({ it.field }, { it.defaultMessage })
+        )
     }
 
     @ExceptionHandler(FormValidationException::class)
@@ -21,6 +23,5 @@ class ValidationExceptionHandler {
     fun handleFormValidationException(ex: FormValidationException): ValidationErrorResponse {
         return ValidationErrorResponse(mapOf((ex.field ?: "global") to ex.message))
     }
-
 }
 
