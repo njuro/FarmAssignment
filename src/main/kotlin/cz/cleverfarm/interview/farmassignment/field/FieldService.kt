@@ -3,7 +3,7 @@ package cz.cleverfarm.interview.farmassignment.field
 import cz.cleverfarm.interview.farmassignment.common.FARM_NOT_FOUND
 import cz.cleverfarm.interview.farmassignment.farm.FarmService
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field.FIELD
-import cz.cleverfarm.interview.farmassignment.validation.FormValidationException
+import cz.cleverfarm.interview.farmassignment.utils.validation.FormValidationException
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -13,14 +13,19 @@ import java.util.*
 
 @Service
 @Transactional
-class FieldService @Autowired constructor(private val jooq: DSLContext, private val farmService: FarmService) {
+class FieldService @Autowired constructor(private val jooq: DSLContext, private val farmService: FarmService, private val geometryService: FieldGeometryService) {
+
 
     fun addNewField(farmId: UUID, field: FieldForm): FieldDto {
+        val geometry = geometryService.parseGeometry(field.wkt)
+        geometryService.validateGeometry(geometry)
+
         val farm = farmService.findFarmById(farmId)
                 ?: throw FormValidationException(FARM_NOT_FOUND)
         val record = jooq.newRecord(FIELD, field)
                 .with(FIELD.ID, UUID.randomUUID())
                 .with(FIELD.FARM_ID, farmId)
+                .with(FIELD.GEOM, geometry)
                 .with(FIELD.CREATED_AT, OffsetDateTime.now())
                 .with(FIELD.UPDATED_AT, OffsetDateTime.now())
         record.store()
@@ -41,4 +46,6 @@ class FieldService @Autowired constructor(private val jooq: DSLContext, private 
     fun deleteField(farmId: UUID, id: UUID): Boolean {
         return jooq.deleteFrom(FIELD).where(FIELD.ID.eq(id).and(FIELD.FARM_ID.eq(farmId))).execute() > 0
     }
+
+
 }

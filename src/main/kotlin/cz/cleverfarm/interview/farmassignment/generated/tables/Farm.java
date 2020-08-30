@@ -20,7 +20,7 @@ import java.util.UUID;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Farm extends TableImpl<FarmRecord> {
 
-  private static final long serialVersionUID = -1862265819;
+  private static final long serialVersionUID = 233780357;
 
   /** The reference instance of <code>public.farm</code> */
   public static final Farm FARM = new Farm();
@@ -48,7 +48,11 @@ public class Farm extends TableImpl<FarmRecord> {
   public final TableField<FarmRecord, OffsetDateTime> CREATED_AT =
       createField(
           DSL.name("created_at"),
-          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false),
+          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE
+              .nullable(false)
+              .defaultValue(
+                  org.jooq.impl.DSL.field(
+                      "now()", org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE)),
           this,
           "");
 
@@ -56,7 +60,11 @@ public class Farm extends TableImpl<FarmRecord> {
   public final TableField<FarmRecord, OffsetDateTime> UPDATED_AT =
       createField(
           DSL.name("updated_at"),
-          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false),
+          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE
+              .nullable(false)
+              .defaultValue(
+                  org.jooq.impl.DSL.field(
+                      "now()", org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE)),
           this,
           "");
 

@@ -3,9 +3,11 @@
  */
 package cz.cleverfarm.interview.farmassignment.generated.tables;
 
+import com.vividsolutions.jts.geom.Geometry;
 import cz.cleverfarm.interview.farmassignment.generated.Keys;
 import cz.cleverfarm.interview.farmassignment.generated.Public;
 import cz.cleverfarm.interview.farmassignment.generated.tables.records.FieldRecord;
+import net.dmitry.jooq.postgis.spatial.binding.JTSGeometryBinding;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
@@ -19,7 +21,7 @@ import java.util.UUID;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Field extends TableImpl<FieldRecord> {
 
-  private static final long serialVersionUID = -1677939321;
+  private static final long serialVersionUID = -1919022260;
 
   /** The reference instance of <code>public.field</code> */
   public static final Field FIELD = new Field();
@@ -47,7 +49,11 @@ public class Field extends TableImpl<FieldRecord> {
   public final TableField<FieldRecord, OffsetDateTime> CREATED_AT =
       createField(
           DSL.name("created_at"),
-          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false),
+          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE
+              .nullable(false)
+              .defaultValue(
+                  org.jooq.impl.DSL.field(
+                      "now()", org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE)),
           this,
           "");
 
@@ -55,9 +61,23 @@ public class Field extends TableImpl<FieldRecord> {
   public final TableField<FieldRecord, OffsetDateTime> UPDATED_AT =
       createField(
           DSL.name("updated_at"),
-          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false),
+          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE
+              .nullable(false)
+              .defaultValue(
+                  org.jooq.impl.DSL.field(
+                      "now()", org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE)),
           this,
           "");
+
+  /** The column <code>public.field.geom</code>. */
+  public final TableField<FieldRecord, Geometry> GEOM =
+      createField(
+          DSL.name("geom"),
+          org.jooq.impl.DefaultDataType.getDefaultDataType("\"public\".\"geometry\"")
+              .nullable(false),
+          this,
+          "",
+          new JTSGeometryBinding());
 
   /** Create a <code>public.field</code> table reference */
   public Field() {
@@ -133,11 +153,11 @@ public class Field extends TableImpl<FieldRecord> {
   }
 
   // -------------------------------------------------------------------------
-  // Row5 type methods
+  // Row6 type methods
   // -------------------------------------------------------------------------
 
   @Override
-  public Row5<UUID, String, UUID, OffsetDateTime, OffsetDateTime> fieldsRow() {
-    return (Row5) super.fieldsRow();
+  public Row6<UUID, String, UUID, OffsetDateTime, OffsetDateTime, Geometry> fieldsRow() {
+    return (Row6) super.fieldsRow();
   }
 }

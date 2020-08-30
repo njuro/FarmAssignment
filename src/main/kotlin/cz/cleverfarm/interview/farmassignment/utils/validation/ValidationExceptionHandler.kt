@@ -1,4 +1,4 @@
-package cz.cleverfarm.interview.farmassignment.validation
+package cz.cleverfarm.interview.farmassignment.utils.validation
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -19,7 +19,7 @@ class ValidationExceptionHandler {
     @ExceptionHandler(FormValidationException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleFormValidationException(ex: FormValidationException): ValidationErrorResponse {
-        return ValidationErrorResponse(mapOf("global" to ex.message))
+        return ValidationErrorResponse(mapOf((ex.field ?: "global") to ex.message))
     }
 
 }

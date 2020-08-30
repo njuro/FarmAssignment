@@ -26,7 +26,7 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
     fun findAllFarms(): List<FarmDto> {
         val farms = jooq.selectFrom(FARM).orderBy(FARM.UPDATED_AT.desc()).fetchInto(FarmDto::class.java)
         val fields = jooq.fetch(FIELD).intoGroups(FIELD.FARM_ID, FieldDto::class.java)
-        farms.forEach { it.fields = fields.getOrDefault(it.id, listOf()).sortedByDescending { it.updatedAt } }
+        farms.forEach { it.fields = fields.getOrDefault(it.id, listOf()).sortedByDescending { field -> field.updatedAt } }
         return farms
     }
 

@@ -3,8 +3,10 @@
  */
 package cz.cleverfarm.interview.farmassignment.generated;
 
+import cz.cleverfarm.interview.farmassignment.generated.tables.Country;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Farm;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field;
+import cz.cleverfarm.interview.farmassignment.generated.tables.records.CountryRecord;
 import cz.cleverfarm.interview.farmassignment.generated.tables.records.FarmRecord;
 import cz.cleverfarm.interview.farmassignment.generated.tables.records.FieldRecord;
 import org.jooq.ForeignKey;
@@ -27,6 +29,7 @@ public class Keys {
   // UNIQUE and PRIMARY KEY definitions
   // -------------------------------------------------------------------------
 
+  public static final UniqueKey<CountryRecord> COUNTRY_PKEY = UniqueKeys0.COUNTRY_PKEY;
   public static final UniqueKey<FarmRecord> FARM_PKEY = UniqueKeys0.FARM_PKEY;
   public static final UniqueKey<FieldRecord> FIELD_PKEY = UniqueKeys0.FIELD_PKEY;
 
@@ -42,6 +45,9 @@ public class Keys {
   // -------------------------------------------------------------------------
 
   private static class UniqueKeys0 {
+    public static final UniqueKey<CountryRecord> COUNTRY_PKEY =
+        Internal.createUniqueKey(
+            Country.COUNTRY, "country_pkey", new TableField[] {Country.COUNTRY.ISO3}, true);
     public static final UniqueKey<FarmRecord> FARM_PKEY =
         Internal.createUniqueKey(Farm.FARM, "farm_pkey", new TableField[] {Farm.FARM.ID}, true);
     public static final UniqueKey<FieldRecord> FIELD_PKEY =
