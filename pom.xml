@@ -150,6 +150,9 @@
                                 <password>${spring.datasource.password}</password>
                             </jdbc>
                             <generator>
+                                <generate>
+                                    <javaTimeTypes>true</javaTimeTypes>
+                                </generate>
                                 <database>
                                     <name>
                                         org.jooq.meta.postgres.PostgresDatabase

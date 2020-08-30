@@ -3,24 +3,189 @@
  */
 package cz.cleverfarm.interview.farmassignment.generated;
 
+import cz.cleverfarm.interview.farmassignment.generated.tables.*;
+import cz.cleverfarm.interview.farmassignment.generated.tables.records.StDumpRecord;
+import cz.cleverfarm.interview.farmassignment.generated.tables.records.StDumppointsRecord;
+import cz.cleverfarm.interview.farmassignment.generated.tables.records.StDumpringsRecord;
+import cz.cleverfarm.interview.farmassignment.generated.tables.records.StSubdivideRecord;
+import org.jooq.Configuration;
+import org.jooq.Result;
 
-import cz.cleverfarm.interview.farmassignment.generated.tables.Farm;
-import cz.cleverfarm.interview.farmassignment.generated.tables.Field;
-
-
-/**
- * Convenience access to all tables in public
- */
+/** Convenience access to all tables in public */
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
 
-    /**
-     * The table <code>public.farm</code>.
-     */
-    public static final Farm FARM = Farm.FARM;
+  /** The table <code>public.farm</code>. */
+  public static final Farm FARM = Farm.FARM;
 
-    /**
-     * The table <code>public.field</code>.
-     */
-    public static final Field FIELD = Field.FIELD;
+  /** The table <code>public.field</code>. */
+  public static final Field FIELD = Field.FIELD;
+
+  /** The table <code>public.geography_columns</code>. */
+  public static final GeographyColumns GEOGRAPHY_COLUMNS = GeographyColumns.GEOGRAPHY_COLUMNS;
+
+  /** The table <code>public.geometry_columns</code>. */
+  public static final GeometryColumns GEOMETRY_COLUMNS = GeometryColumns.GEOMETRY_COLUMNS;
+
+  /** The table <code>public.spatial_ref_sys</code>. */
+  public static final SpatialRefSys SPATIAL_REF_SYS = SpatialRefSys.SPATIAL_REF_SYS;
+
+  /** The table <code>public.st_dump</code>. */
+  public static final StDump ST_DUMP = StDump.ST_DUMP;
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static Result<StDumpRecord> ST_DUMP(Configuration configuration, Object __1) {
+    return configuration
+        .dsl()
+        .selectFrom(
+            cz.cleverfarm.interview.farmassignment.generated.tables.StDump.ST_DUMP.call(__1))
+        .fetch();
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StDump ST_DUMP(Object __1) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StDump.ST_DUMP.call(__1);
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StDump ST_DUMP(org.jooq.Field<Object> __1) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StDump.ST_DUMP.call(__1);
+  }
+
+  /** The table <code>public.st_dumppoints</code>. */
+  public static final StDumppoints ST_DUMPPOINTS = StDumppoints.ST_DUMPPOINTS;
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static Result<StDumppointsRecord> ST_DUMPPOINTS(Configuration configuration, Object __1) {
+    return configuration
+        .dsl()
+        .selectFrom(
+            cz.cleverfarm.interview.farmassignment.generated.tables.StDumppoints.ST_DUMPPOINTS.call(
+                __1))
+        .fetch();
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StDumppoints ST_DUMPPOINTS(Object __1) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StDumppoints.ST_DUMPPOINTS.call(
+        __1);
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StDumppoints ST_DUMPPOINTS(org.jooq.Field<Object> __1) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StDumppoints.ST_DUMPPOINTS.call(
+        __1);
+  }
+
+  /** The table <code>public.st_dumprings</code>. */
+  public static final StDumprings ST_DUMPRINGS = StDumprings.ST_DUMPRINGS;
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static Result<StDumpringsRecord> ST_DUMPRINGS(Configuration configuration, Object __1) {
+    return configuration
+        .dsl()
+        .selectFrom(
+            cz.cleverfarm.interview.farmassignment.generated.tables.StDumprings.ST_DUMPRINGS.call(
+                __1))
+        .fetch();
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StDumprings ST_DUMPRINGS(Object __1) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StDumprings.ST_DUMPRINGS.call(
+        __1);
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StDumprings ST_DUMPRINGS(org.jooq.Field<Object> __1) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StDumprings.ST_DUMPRINGS.call(
+        __1);
+  }
+
+  /** The table <code>public.st_subdivide</code>. */
+  public static final StSubdivide ST_SUBDIVIDE = StSubdivide.ST_SUBDIVIDE;
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static Result<StSubdivideRecord> ST_SUBDIVIDE(
+      Configuration configuration, Object geom, Integer maxvertices) {
+    return configuration
+        .dsl()
+        .selectFrom(
+            cz.cleverfarm.interview.farmassignment.generated.tables.StSubdivide.ST_SUBDIVIDE.call(
+                geom, maxvertices))
+        .fetch();
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StSubdivide ST_SUBDIVIDE(Object geom, Integer maxvertices) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StSubdivide.ST_SUBDIVIDE.call(
+        geom, maxvertices);
+  }
+
+  /**
+   * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify
+   *     how this type should be handled. Deprecation can be turned off using {@literal
+   *     <deprecationOnUnknownTypes/>} in your code generator configuration.
+   */
+  @java.lang.Deprecated
+  public static StSubdivide ST_SUBDIVIDE(
+      org.jooq.Field<Object> geom, org.jooq.Field<Integer> maxvertices) {
+    return cz.cleverfarm.interview.farmassignment.generated.tables.StSubdivide.ST_SUBDIVIDE.call(
+        geom, maxvertices);
+  }
 }
