@@ -7,7 +7,6 @@ import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Service
 class FarmService @Autowired constructor(private val jooq: DSLContext) {
@@ -21,7 +20,7 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
     fun findAllFarms(): List<FarmDto> {
         val farms = jooq.fetch(FARM).into(FarmDto::class.java)
         val fields = jooq.fetch(FIELD).intoGroups(FIELD.FARM_ID, FieldDto::class.java)
-        farms.forEach { it.fields = fields.getOrDefault(it.id, ArrayList()) }
+        farms.forEach { it.fields = fields.getOrDefault(it.id, listOf()) }
         return farms
     }
 
@@ -37,7 +36,7 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
 
     fun updateFarm(id: UUID, updatedFarm: FarmForm): FarmDto? {
         val updated = jooq.update(FARM).set(jooq.newRecord(FARM, updatedFarm)).where(FARM.ID.eq(id)).execute() > 0
-        return if (updated) findFarmById(id) else null
+        return if (updated) findFarmById(id, fetchFields = true) else null
     }
 
     fun deleteFarm(id: UUID): Boolean {

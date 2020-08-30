@@ -9,13 +9,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.util.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping(API_ROOT_FARMS)
 class FarmRestController @Autowired constructor(private val farmService: FarmService) {
 
     @PutMapping
-    fun addNewFarm(@RequestBody farm: FarmForm): FarmDto {
+    fun addNewFarm(@Valid @RequestBody farm: FarmForm): FarmDto {
         return farmService.addNewFarm(farm)
     }
 
@@ -31,7 +32,7 @@ class FarmRestController @Autowired constructor(private val farmService: FarmSer
     }
 
     @PostMapping(FARM_ID_VARIABLE)
-    fun updateFarm(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID, @RequestBody updatedFarm: FarmForm): FarmDto {
+    fun updateFarm(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID, @Valid @RequestBody updatedFarm: FarmForm): FarmDto {
         return farmService.updateFarm(farmId, updatedFarm)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FARM_NOT_FOUND)
     }

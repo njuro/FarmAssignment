@@ -6,13 +6,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.util.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping(API_ROOT_FIELDS)
 class FieldRestController @Autowired constructor(private val fieldService: FieldService) {
 
     @PutMapping
-    fun addNewField(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID, @RequestBody field: FieldForm): FieldDto {
+    fun addNewField(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID, @Valid @RequestBody field: FieldForm): FieldDto {
         return fieldService.addNewField(farmId, field)
     }
 
@@ -23,7 +24,7 @@ class FieldRestController @Autowired constructor(private val fieldService: Field
     }
 
     @PostMapping(FIELD_ID_VARIABLE)
-    fun updateField(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID, @PathVariable(name = FIELD_ID_VARIABLE_NAME) fieldId: UUID, @RequestBody updatedField: FieldForm): FieldDto {
+    fun updateField(@PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID, @PathVariable(name = FIELD_ID_VARIABLE_NAME) fieldId: UUID, @Valid @RequestBody updatedField: FieldForm): FieldDto {
         return fieldService.updateField(farmId, fieldId, updatedField)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FIELD_NOT_FOUND)
     }
