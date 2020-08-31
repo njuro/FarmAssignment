@@ -8,7 +8,7 @@ import com.vividsolutions.jts.io.ParseException
 import com.vividsolutions.jts.io.WKTReader
 import cz.cleverfarm.interview.farmassignment.generated.tables.Country
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field
-import cz.cleverfarm.interview.farmassignment.utils.validation.FormValidationException
+import cz.cleverfarm.interview.farmassignment.validation.FormValidationException
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
 import org.springframework.beans.factory.annotation.Autowired

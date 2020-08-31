@@ -1,4 +1,4 @@
-package cz.cleverfarm.interview.farmassignment.utils
+package cz.cleverfarm.interview.farmassignment.field.geometry
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.JsonSerializer

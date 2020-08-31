@@ -3,7 +3,7 @@ package cz.cleverfarm.interview.farmassignment.field
 import cz.cleverfarm.interview.farmassignment.common.FARM_NOT_FOUND
 import cz.cleverfarm.interview.farmassignment.farm.FarmService
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field.FIELD
-import cz.cleverfarm.interview.farmassignment.utils.validation.FormValidationException
+import cz.cleverfarm.interview.farmassignment.validation.FormValidationException
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

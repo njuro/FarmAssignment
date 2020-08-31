@@ -1,4 +1,4 @@
-package cz.cleverfarm.interview.farmassignment.utils.validation
+package cz.cleverfarm.interview.farmassignment.validation
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
