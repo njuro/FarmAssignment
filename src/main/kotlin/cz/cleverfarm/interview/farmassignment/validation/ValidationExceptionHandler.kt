@@ -21,7 +21,7 @@ class ValidationExceptionHandler {
     @ExceptionHandler(FormValidationException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleFormValidationException(ex: FormValidationException): ValidationErrorResponse {
-        return ValidationErrorResponse(mapOf((ex.field ?: "global") to ex.message))
+        return ValidationErrorResponse(mapOf((ex.field ?: OBJECT_ERROR) to ex.message))
     }
 }
 

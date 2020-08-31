@@ -2,13 +2,16 @@ package cz.cleverfarm.interview.farmassignment
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import cz.cleverfarm.interview.farmassignment.validation.ValidationErrorResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.ResultActionsDsl
+import org.springframework.test.web.servlet.ResultMatcher
 
 @AutoConfigureMockMvc
-abstract class IntegrationTest {
+internal abstract class IntegrationTest {
 
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
@@ -16,8 +19,26 @@ abstract class IntegrationTest {
     @Autowired
     protected lateinit var mockMvc: MockMvc
 
+    protected fun ResultActionsDsl.andExpectValidationError(field: String, message: String? = null) {
+        andExpect {
+            status { isBadRequest }
+            content { validationError(field, message) }
+        }
+    }
+
+    protected fun validationError(field: String, message: String? = null): ResultMatcher {
+        return ResultMatcher { result ->
+            val errors = convertResult<ValidationErrorResponse>(result).errors
+            errors.containsKey(field) && (message == null || errors.containsValue(message))
+        }
+    }
+
     protected inline fun <reified T> ResultActionsDsl.andReturnConverted(): T {
         val result = this.andReturn()
+        return convertResult(result)
+    }
+
+    private inline fun <reified T> convertResult(result: MvcResult): T {
         val typeReference = object : TypeReference<T>() {}
         return objectMapper.readValue(result.response.contentAsString, typeReference)
     }

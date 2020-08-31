@@ -15,26 +15,32 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @SpringBootTest
 @Transactional
-class FarmIntegrationTest : IntegrationTest() {
+internal class FarmIntegrationTest : IntegrationTest() {
 
     @Autowired
     lateinit var farmService: FarmService
 
     @Test
     fun testAddNewFarm() {
-        val farmForm = FarmForm("New farm", "Some note")
-        val response = mockMvc.put(API_ROOT_FARMS) {
+        fun submitForm(form: FarmForm) = mockMvc.put(API_ROOT_FARMS) {
             contentType = MediaType.APPLICATION_JSON
-            content = objectMapper.writeValueAsString(farmForm)
-        }.andExpect {
+            content = objectMapper.writeValueAsString(form)
+        }
+
+        val farmForm = FarmForm("New farm", "Some note")
+        val response = submitForm(farmForm).andExpect {
             status { isOk }
         }.andReturnConverted<FarmDto>()
 
         assertThat(response).isEqualToComparingOnlyGivenFields(farmForm, "name", "note")
             .hasNoNullFieldsOrProperties()
+
+        submitForm(FarmForm(null, null)).andExpectValidationError("name")
+        submitForm(FarmForm("AB", null)).andExpectValidationError("name")
     }
 
     @Test
@@ -60,6 +66,12 @@ class FarmIntegrationTest : IntegrationTest() {
     }
 
     @Test
+    fun testFindNonExistentFarm() {
+        mockMvc.get(API_ROOT_FARMS + FARM_ID_VARIABLE, UUID.randomUUID())
+            .andExpect { status { isNotFound } }
+    }
+
+    @Test
     fun testUpdateFarm() {
         val testFarm = createFarm("Test Farm", "Test Note")
         val updatedForm = FarmForm("Updated Farm", "Updated Note")
@@ -75,9 +87,22 @@ class FarmIntegrationTest : IntegrationTest() {
     }
 
     @Test
+    fun testUpdateNonExistentFarm() {
+        mockMvc.post(API_ROOT_FARMS + FARM_ID_VARIABLE, UUID.randomUUID()) {
+            contentType = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(FarmForm("Updated Farm", "Updated Note"))
+        }.andExpect { status { isNotFound } }
+    }
+
+    @Test
     fun testDeleteFarm() {
         val testFarm = createFarm("Test Farm")
         mockMvc.delete(API_ROOT_FARMS + FARM_ID_VARIABLE, testFarm.id).andExpect { status { isOk } }
+    }
+
+    @Test
+    fun testDeleteNonExistentFarm() {
+        mockMvc.delete(API_ROOT_FARMS + FARM_ID_VARIABLE, UUID.randomUUID()).andExpect { status { isNotFound } }
     }
 
     private fun createFarm(name: String, note: String = "Default note"): FarmDto {

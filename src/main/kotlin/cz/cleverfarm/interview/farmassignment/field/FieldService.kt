@@ -2,6 +2,7 @@ package cz.cleverfarm.interview.farmassignment.field
 
 import cz.cleverfarm.interview.farmassignment.common.FARM_NOT_FOUND
 import cz.cleverfarm.interview.farmassignment.farm.FarmService
+import cz.cleverfarm.interview.farmassignment.field.geometry.FieldGeometryService
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field.FIELD
 import cz.cleverfarm.interview.farmassignment.validation.FormValidationException
 import org.jooq.DSLContext

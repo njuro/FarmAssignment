@@ -1,4 +1,4 @@
-package cz.cleverfarm.interview.farmassignment.field
+package cz.cleverfarm.interview.farmassignment.field.geometry
 
 import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.geom.GeometryFactory
@@ -6,6 +6,12 @@ import com.vividsolutions.jts.geom.Polygon
 import com.vividsolutions.jts.geom.PrecisionModel
 import com.vividsolutions.jts.io.ParseException
 import com.vividsolutions.jts.io.WKTReader
+import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_AREA_ERROR
+import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_COUNTRY_ERROR
+import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_INVALID_ERROR
+import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_OVERLAP_ERROR
+import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_POLYGON_ERROR
+import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_SHAPE_ERROR
 import cz.cleverfarm.interview.farmassignment.generated.tables.Country.COUNTRY
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field.FIELD
 import cz.cleverfarm.interview.farmassignment.validation.FormValidationException
@@ -26,21 +32,21 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
         try {
             return wktReader.read(wkt)
         } catch (ex: ParseException) {
-            throw FormValidationException(WKT_FIELD, "Invalid WKT: ${ex.message}")
+            throw FormValidationException(WKT_FIELD, GEOMETRY_INVALID_ERROR)
         }
     }
 
     fun validateGeometry(geom: Geometry, countryCode: String? = "CZE", updatingId: UUID? = null) {
         if (geom !is Polygon) {
-            throw FormValidationException(WKT_FIELD, "Only polygons are allowed for field")
+            throw FormValidationException(WKT_FIELD, GEOMETRY_SHAPE_ERROR)
         }
 
         if (!geom.isValid()) {
-            throw FormValidationException(WKT_FIELD, "Invalid polygon")
+            throw FormValidationException(WKT_FIELD, GEOMETRY_POLYGON_ERROR)
         }
 
         if (geom.area <= 0) {
-            throw FormValidationException(WKT_FIELD, "Field's area must be positive number")
+            throw FormValidationException(WKT_FIELD, GEOMETRY_AREA_ERROR)
         }
 
         val overlapping = jooq.select(DSL.count()).from(FIELD)
@@ -48,14 +54,11 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
             .and(FIELD.ID.notEqual(updatingId))
             .fetchOneInto(Integer::class.java)
         if (overlapping > 0) {
-            throw FormValidationException(WKT_FIELD, "Field overlaps with existing field")
+            throw FormValidationException(WKT_FIELD, GEOMETRY_OVERLAP_ERROR)
         }
 
         if (countryCode != null && !geom.within(getCountryGeometry(countryCode))) {
-            throw FormValidationException(
-                WKT_FIELD,
-                "Field must be entirely within country with following code: $countryCode"
-            )
+            throw FormValidationException(WKT_FIELD, GEOMETRY_COUNTRY_ERROR)
         }
     }
 
