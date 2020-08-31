@@ -24,13 +24,13 @@ class FieldService @Autowired constructor(
         val farm = farmService.findFarmById(farmId)
             ?: throw FormValidationException(FARM_NOT_FOUND)
 
-        val geometry = geometryService.parseGeometry(field.wkt)
-        geometryService.validateGeometry(geometry, farm.country)
+        val borders = geometryService.parseBorders(field.wkt)
+        geometryService.validateBorders(borders, farm.country)
 
         val record = jooq.newRecord(FIELD, field)
             .with(FIELD.ID, UUID.randomUUID())
             .with(FIELD.FARM_ID, farmId)
-            .with(FIELD.GEOM, geometry)
+            .with(FIELD.BORDERS, borders)
             .with(FIELD.CREATED_AT, LocalDateTime.now())
             .with(FIELD.UPDATED_AT, LocalDateTime.now())
         record.store()
@@ -44,14 +44,14 @@ class FieldService @Autowired constructor(
 
     fun updateField(farmId: UUID, id: UUID, updatedField: FieldForm): FieldDto? {
         val farm = farmService.findFarmById(farmId)
-        val geometry = geometryService.parseGeometry(updatedField.wkt)
-        geometryService.validateGeometry(geometry, farm!!.country, updatingId = id)
+        val borders = geometryService.parseBorders(updatedField.wkt)
+        geometryService.validateBorders(borders, farm!!.country, updatingId = id)
 
         val updated =
             jooq.update(FIELD).set(
                 jooq.newRecord(FIELD, updatedField)
                     .with(FIELD.UPDATED_AT, LocalDateTime.now())
-                    .with(FIELD.GEOM, geometry)
+                    .with(FIELD.BORDERS, borders)
             )
                 .where(FIELD.ID.eq(id).and(FIELD.FARM_ID.eq(farmId))).execute() > 0
         return if (updated) findFieldById(farmId, id) else null

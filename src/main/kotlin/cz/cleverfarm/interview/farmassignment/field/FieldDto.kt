@@ -12,7 +12,7 @@ import java.util.UUID
 data class FieldDto(
     val id: UUID,
     val name: String,
-    @field:JsonSerialize(using = GeometrySerializer::class) @field:JsonDeserialize(using = GeometryDeserializer::class) val geom: Geometry,
+    @field:JsonSerialize(using = GeometrySerializer::class) @field:JsonDeserialize(using = GeometryDeserializer::class) val borders: Geometry,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
 ) {

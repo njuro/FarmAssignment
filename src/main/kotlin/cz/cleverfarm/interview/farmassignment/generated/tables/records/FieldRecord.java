@@ -18,7 +18,7 @@ import java.util.UUID;
 public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
     implements Record6<UUID, String, UUID, LocalDateTime, LocalDateTime, Geometry> {
 
-  private static final long serialVersionUID = -1803366237;
+  private static final long serialVersionUID = -158975523;
 
   /** Setter for <code>public.field.id</code>. */
   public void setId(UUID value) {
@@ -70,13 +70,13 @@ public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
     return (LocalDateTime) get(4);
   }
 
-  /** Setter for <code>public.field.geom</code>. */
-  public void setGeom(Geometry value) {
+  /** Setter for <code>public.field.borders</code>. */
+  public void setBorders(Geometry value) {
     set(5, value);
   }
 
-  /** Getter for <code>public.field.geom</code>. */
-  public Geometry getGeom() {
+  /** Getter for <code>public.field.borders</code>. */
+  public Geometry getBorders() {
     return (Geometry) get(5);
   }
 
@@ -130,7 +130,7 @@ public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
 
   @Override
   public org.jooq.Field<Geometry> field6() {
-    return Field.FIELD.GEOM;
+    return Field.FIELD.BORDERS;
   }
 
   @Override
@@ -160,7 +160,7 @@ public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
 
   @Override
   public Geometry component6() {
-    return getGeom();
+    return getBorders();
   }
 
   @Override
@@ -190,7 +190,7 @@ public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
 
   @Override
   public Geometry value6() {
-    return getGeom();
+    return getBorders();
   }
 
   @Override
@@ -225,7 +225,7 @@ public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
 
   @Override
   public FieldRecord value6(Geometry value) {
-    setGeom(value);
+    setBorders(value);
     return this;
   }
 
@@ -262,7 +262,7 @@ public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
       UUID farmId,
       LocalDateTime createdAt,
       LocalDateTime updatedAt,
-      Geometry geom) {
+      Geometry borders) {
     super(Field.FIELD);
 
     set(0, id);
@@ -270,6 +270,6 @@ public class FieldRecord extends UpdatableRecordImpl<FieldRecord>
     set(2, farmId);
     set(3, createdAt);
     set(4, updatedAt);
-    set(5, geom);
+    set(5, borders);
   }
 }

@@ -1,13 +1,13 @@
 package cz.cleverfarm.interview.farmassignment
 
 import cz.cleverfarm.interview.farmassignment.common.API_ROOT_FIELDS
+import cz.cleverfarm.interview.farmassignment.common.BORDERS_AREA_ERROR
+import cz.cleverfarm.interview.farmassignment.common.BORDERS_COUNTRY_ERROR
+import cz.cleverfarm.interview.farmassignment.common.BORDERS_INVALID_ERROR
+import cz.cleverfarm.interview.farmassignment.common.BORDERS_POLYGON_ERROR
+import cz.cleverfarm.interview.farmassignment.common.BORDERS_SHAPE_ERROR
 import cz.cleverfarm.interview.farmassignment.common.FARM_NOT_FOUND
 import cz.cleverfarm.interview.farmassignment.common.FIELD_ID_VARIABLE
-import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_AREA_ERROR
-import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_COUNTRY_ERROR
-import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_INVALID_ERROR
-import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_POLYGON_ERROR
-import cz.cleverfarm.interview.farmassignment.common.GEOMETRY_SHAPE_ERROR
 import cz.cleverfarm.interview.farmassignment.farm.FarmDto
 import cz.cleverfarm.interview.farmassignment.farm.FarmForm
 import cz.cleverfarm.interview.farmassignment.farm.FarmService
@@ -65,18 +65,18 @@ internal class FieldIntegrationTest : IntegrationTest() {
         val response = submitForm(fieldForm).andExpect { status { isOk } }.andReturnConverted<FieldDto>()
 
         assertThat(response.name).isEqualTo(fieldForm.name)
-        assertThat(response.geom.toText()).isEqualToIgnoringWhitespace(fieldForm.wkt)
+        assertThat(response.borders.toText()).isEqualToIgnoringWhitespace(fieldForm.wkt)
         assertThat(response).hasNoNullFieldsOrProperties()
 
-        submitForm(FieldForm("Test Field", "Invalid WKT")).andExpectValidationError("wkt", GEOMETRY_INVALID_ERROR)
-        submitForm(FieldForm("Test Field", TEST_WKT_LINESTRING)).andExpectValidationError("wkt", GEOMETRY_SHAPE_ERROR)
-        submitForm(FieldForm("Test Field", TEST_WKT_INVALID)).andExpectValidationError("wkt", GEOMETRY_POLYGON_ERROR)
-        submitForm(FieldForm("Test Field", TEST_WKT_EMPTY)).andExpectValidationError("wkt", GEOMETRY_AREA_ERROR)
+        submitForm(FieldForm("Test Field", "Invalid WKT")).andExpectValidationError("wkt", BORDERS_INVALID_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_LINESTRING)).andExpectValidationError("wkt", BORDERS_SHAPE_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_INVALID)).andExpectValidationError("wkt", BORDERS_POLYGON_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_EMPTY)).andExpectValidationError("wkt", BORDERS_AREA_ERROR)
         // TODO check overlap
         // submitForm(FieldForm("Test Field", TEST_WKT)).andExpectValidationError("wkt", GEOMETRY_OVERLAP_ERROR)
         submitForm(FieldForm("Test Field", TEST_WKT_OTHER_COUNTRY)).andExpectValidationError(
             "wkt",
-            GEOMETRY_COUNTRY_ERROR
+            BORDERS_COUNTRY_ERROR
         )
     }
 
@@ -115,7 +115,7 @@ internal class FieldIntegrationTest : IntegrationTest() {
         }.andExpect { status { isOk } }.andReturnConverted<FieldDto>()
 
         assertThat(response.name).isEqualTo(updatedForm.name)
-        assertThat(response.geom.toText()).isEqualToIgnoringWhitespace(updatedForm.wkt)
+        assertThat(response.borders.toText()).isEqualToIgnoringWhitespace(updatedForm.wkt)
         assertThat(response.updatedAt).isNotEqualTo(testField.updatedAt)
         assertThat(response).isEqualToComparingOnlyGivenFields(testField, "id", "createdAt", "farm")
             .hasNoNullFieldsOrProperties()

@@ -21,7 +21,7 @@ import java.util.UUID;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Field extends TableImpl<FieldRecord> {
 
-  private static final long serialVersionUID = 463404116;
+  private static final long serialVersionUID = 1533514133;
 
   /** The reference instance of <code>public.field</code> */
   public static final Field FIELD = new Field();
@@ -67,10 +67,10 @@ public class Field extends TableImpl<FieldRecord> {
           this,
           "");
 
-  /** The column <code>public.field.geom</code>. */
-  public final TableField<FieldRecord, Geometry> GEOM =
+  /** The column <code>public.field.borders</code>. */
+  public final TableField<FieldRecord, Geometry> BORDERS =
       createField(
-          DSL.name("geom"),
+          DSL.name("borders"),
           org.jooq.impl.DefaultDataType.getDefaultDataType("\"public\".\"geometry\"")
               .nullable(false),
           this,
