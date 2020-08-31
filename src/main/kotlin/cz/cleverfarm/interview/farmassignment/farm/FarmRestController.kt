@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
@@ -28,8 +29,11 @@ class FarmRestController @Autowired constructor(private val farmService: FarmSer
     }
 
     @GetMapping
-    fun findAllFarms(): List<FarmDto> {
-        return farmService.findAllFarms()
+    fun findAllFarms(
+        @RequestParam(name = "page", required = false, defaultValue = "0") page: Int,
+        @RequestParam(name = "pageSize", required = false, defaultValue = "10") pageSize: Int
+    ): List<FarmDto> {
+        return farmService.findAllFarms(page, pageSize)
     }
 
     @GetMapping(FARM_ID_VARIABLE)
