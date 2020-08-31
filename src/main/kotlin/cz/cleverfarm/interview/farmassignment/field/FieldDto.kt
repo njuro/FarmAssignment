@@ -17,4 +17,5 @@ data class FieldDto(
     val updatedAt: OffsetDateTime
 ) {
     var farm: FarmDto? = null
+    val area = borders.area
 }
