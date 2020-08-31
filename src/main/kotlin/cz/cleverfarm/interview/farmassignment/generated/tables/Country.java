@@ -20,7 +20,7 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Country extends TableImpl<CountryRecord> {
 
-  private static final long serialVersionUID = -647321723;
+  private static final long serialVersionUID = 891427133;
 
   /** The reference instance of <code>public.country</code> */
   public static final Country COUNTRY = new Country();
@@ -31,14 +31,14 @@ public class Country extends TableImpl<CountryRecord> {
     return CountryRecord.class;
   }
 
-  /** The column <code>public.country.iso3</code>. */
-  public final TableField<CountryRecord, String> ISO3 =
-      createField(DSL.name("iso3"), org.jooq.impl.SQLDataType.VARCHAR(3).nullable(false), this, "");
+  /** The column <code>public.country.code</code>. */
+  public final TableField<CountryRecord, String> CODE =
+      createField(DSL.name("code"), org.jooq.impl.SQLDataType.VARCHAR(3).nullable(false), this, "");
 
-  /** The column <code>public.country.wkb</code>. */
-  public final TableField<CountryRecord, Geometry> WKB =
+  /** The column <code>public.country.borders</code>. */
+  public final TableField<CountryRecord, Geometry> BORDERS =
       createField(
-          DSL.name("wkb"),
+          DSL.name("borders"),
           org.jooq.impl.DefaultDataType.getDefaultDataType("\"public\".\"geometry\""),
           this,
           "",

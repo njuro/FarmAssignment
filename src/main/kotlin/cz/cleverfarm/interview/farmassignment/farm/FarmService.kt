@@ -69,7 +69,7 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
     }
 
     private fun validateCountry(countryCode: String) {
-        val countryExists = jooq.select(count()).from(COUNTRY).where(COUNTRY.ISO3.equalIgnoreCase(countryCode))
+        val countryExists = jooq.select(count()).from(COUNTRY).where(COUNTRY.CODE.equalIgnoreCase(countryCode))
             .fetchOneInto(Integer::class.java) > 0
         if (!countryExists) {
             throw FormValidationException("country", COUNTRY_NOT_FOUND)

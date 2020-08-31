@@ -16,25 +16,25 @@ import org.jooq.impl.UpdatableRecordImpl;
 public class CountryRecord extends UpdatableRecordImpl<CountryRecord>
     implements Record3<String, Geometry, String> {
 
-  private static final long serialVersionUID = -256211166;
+  private static final long serialVersionUID = 1705504236;
 
-  /** Setter for <code>public.country.iso3</code>. */
-  public void setIso3(String value) {
+  /** Setter for <code>public.country.code</code>. */
+  public void setCode(String value) {
     set(0, value);
   }
 
-  /** Getter for <code>public.country.iso3</code>. */
-  public String getIso3() {
+  /** Getter for <code>public.country.code</code>. */
+  public String getCode() {
     return (String) get(0);
   }
 
-  /** Setter for <code>public.country.wkb</code>. */
-  public void setWkb(Geometry value) {
+  /** Setter for <code>public.country.borders</code>. */
+  public void setBorders(Geometry value) {
     set(1, value);
   }
 
-  /** Getter for <code>public.country.wkb</code>. */
-  public Geometry getWkb() {
+  /** Getter for <code>public.country.borders</code>. */
+  public Geometry getBorders() {
     return (Geometry) get(1);
   }
 
@@ -73,12 +73,12 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord>
 
   @Override
   public Field<String> field1() {
-    return Country.COUNTRY.ISO3;
+    return Country.COUNTRY.CODE;
   }
 
   @Override
   public Field<Geometry> field2() {
-    return Country.COUNTRY.WKB;
+    return Country.COUNTRY.BORDERS;
   }
 
   @Override
@@ -88,12 +88,12 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord>
 
   @Override
   public String component1() {
-    return getIso3();
+    return getCode();
   }
 
   @Override
   public Geometry component2() {
-    return getWkb();
+    return getBorders();
   }
 
   @Override
@@ -103,12 +103,12 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord>
 
   @Override
   public String value1() {
-    return getIso3();
+    return getCode();
   }
 
   @Override
   public Geometry value2() {
-    return getWkb();
+    return getBorders();
   }
 
   @Override
@@ -118,13 +118,13 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord>
 
   @Override
   public CountryRecord value1(String value) {
-    setIso3(value);
+    setCode(value);
     return this;
   }
 
   @Override
   public CountryRecord value2(Geometry value) {
-    setWkb(value);
+    setBorders(value);
     return this;
   }
 
@@ -152,11 +152,11 @@ public class CountryRecord extends UpdatableRecordImpl<CountryRecord>
   }
 
   /** Create a detached, initialised CountryRecord */
-  public CountryRecord(String iso3, Geometry wkb, String name) {
+  public CountryRecord(String code, Geometry borders, String name) {
     super(Country.COUNTRY);
 
-    set(0, iso3);
-    set(1, wkb);
+    set(0, code);
+    set(1, borders);
     set(2, name);
   }
 }

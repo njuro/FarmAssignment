@@ -53,7 +53,7 @@ public class Keys {
   private static class UniqueKeys0 {
     public static final UniqueKey<CountryRecord> COUNTRY_PKEY =
         Internal.createUniqueKey(
-            Country.COUNTRY, "country_pkey", new TableField[] {Country.COUNTRY.ISO3}, true);
+            Country.COUNTRY, "country_pkey", new TableField[] {Country.COUNTRY.CODE}, true);
     public static final UniqueKey<FarmRecord> FARM_PKEY =
         Internal.createUniqueKey(Farm.FARM, "farm_pkey", new TableField[] {Farm.FARM.ID}, true);
     public static final UniqueKey<FieldRecord> FIELD_PKEY =

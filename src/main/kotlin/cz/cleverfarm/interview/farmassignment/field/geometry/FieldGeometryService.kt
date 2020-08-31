@@ -63,9 +63,9 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
     }
 
     private fun getCountryBorders(countryCode: String): Geometry {
-        return jooq.select(COUNTRY.WKB)
+        return jooq.select(COUNTRY.BORDERS)
             .from(COUNTRY)
-            .where(COUNTRY.ISO3.equalIgnoreCase(countryCode))
+            .where(COUNTRY.CODE.equalIgnoreCase(countryCode))
             .fetchOneInto(Geometry::class.java)
             ?: throw IllegalArgumentException("Invalid country code: $countryCode")
     }
