@@ -1,3 +1,5 @@
+create extension if not exists postgis;
+
 create table farm
 (
     id         uuid         not null,

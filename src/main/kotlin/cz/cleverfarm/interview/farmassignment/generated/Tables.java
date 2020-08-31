@@ -6,6 +6,7 @@ package cz.cleverfarm.interview.farmassignment.generated;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Country;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Farm;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field;
+import cz.cleverfarm.interview.farmassignment.generated.tables.FlywaySchemaHistory;
 
 /** Convenience access to all tables in public */
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
@@ -19,4 +20,8 @@ public class Tables {
 
   /** The table <code>public.field</code>. */
   public static final Field FIELD = Field.FIELD;
+
+  /** The table <code>public.flyway_schema_history</code>. */
+  public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY =
+      FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 }

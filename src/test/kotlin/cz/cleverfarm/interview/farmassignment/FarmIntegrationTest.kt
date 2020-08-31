@@ -8,17 +8,13 @@ import cz.cleverfarm.interview.farmassignment.farm.FarmService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
-import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
-@SpringBootTest
-@Transactional
 internal class FarmIntegrationTest : IntegrationTest() {
 
     @Autowired
@@ -52,7 +48,7 @@ internal class FarmIntegrationTest : IntegrationTest() {
             status { isOk }
         }.andReturnConverted<List<FarmDto>>()
 
-        assertThat(response).extracting<String>(FarmDto::name).containsSubsequence(testFarmNames.reversed())
+        assertThat(response).extracting<String>(FarmDto::name).containsExactlyElementsOf(testFarmNames.reversed())
     }
 
     @Test

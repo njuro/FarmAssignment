@@ -21,11 +21,12 @@ class FieldService @Autowired constructor(
 ) {
 
     fun addNewField(farmId: UUID, field: FieldForm): FieldDto {
+        val farm = farmService.findFarmById(farmId)
+            ?: throw FormValidationException(FARM_NOT_FOUND)
+
         val geometry = geometryService.parseGeometry(field.wkt)
         geometryService.validateGeometry(geometry)
 
-        val farm = farmService.findFarmById(farmId)
-            ?: throw FormValidationException(FARM_NOT_FOUND)
         val record = jooq.newRecord(FIELD, field)
             .with(FIELD.ID, UUID.randomUUID())
             .with(FIELD.FARM_ID, farmId)

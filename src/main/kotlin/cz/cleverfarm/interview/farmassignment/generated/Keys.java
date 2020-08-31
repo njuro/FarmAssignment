@@ -6,9 +6,11 @@ package cz.cleverfarm.interview.farmassignment.generated;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Country;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Farm;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field;
+import cz.cleverfarm.interview.farmassignment.generated.tables.FlywaySchemaHistory;
 import cz.cleverfarm.interview.farmassignment.generated.tables.records.CountryRecord;
 import cz.cleverfarm.interview.farmassignment.generated.tables.records.FarmRecord;
 import cz.cleverfarm.interview.farmassignment.generated.tables.records.FieldRecord;
+import cz.cleverfarm.interview.farmassignment.generated.tables.records.FlywaySchemaHistoryRecord;
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -32,6 +34,8 @@ public class Keys {
   public static final UniqueKey<CountryRecord> COUNTRY_PKEY = UniqueKeys0.COUNTRY_PKEY;
   public static final UniqueKey<FarmRecord> FARM_PKEY = UniqueKeys0.FARM_PKEY;
   public static final UniqueKey<FieldRecord> FIELD_PKEY = UniqueKeys0.FIELD_PKEY;
+  public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK =
+      UniqueKeys0.FLYWAY_SCHEMA_HISTORY_PK;
 
   // -------------------------------------------------------------------------
   // FOREIGN KEY definitions
@@ -53,6 +57,12 @@ public class Keys {
     public static final UniqueKey<FieldRecord> FIELD_PKEY =
         Internal.createUniqueKey(
             Field.FIELD, "field_pkey", new TableField[] {Field.FIELD.ID}, true);
+    public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK =
+        Internal.createUniqueKey(
+            FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
+            "flyway_schema_history_pk",
+            new TableField[] {FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK},
+            true);
   }
 
   private static class ForeignKeys0 {

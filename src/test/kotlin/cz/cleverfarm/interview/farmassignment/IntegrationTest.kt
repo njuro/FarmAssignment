@@ -3,13 +3,21 @@ package cz.cleverfarm.interview.farmassignment
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import cz.cleverfarm.interview.farmassignment.validation.ValidationErrorResponse
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase
+import org.flywaydb.test.annotation.FlywayTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.ResultActionsDsl
 import org.springframework.test.web.servlet.ResultMatcher
+import org.springframework.transaction.annotation.Transactional
 
+@SpringBootTest
+@AutoConfigureEmbeddedDatabase(provider = AutoConfigureEmbeddedDatabase.DatabaseProvider.DOCKER)
+@FlywayTest
+@Transactional
 @AutoConfigureMockMvc
 internal abstract class IntegrationTest {
 
@@ -33,7 +41,7 @@ internal abstract class IntegrationTest {
         }
     }
 
-    protected inline fun <reified T> ResultActionsDsl.andReturnConverted(): T {
+    protected final inline fun <reified T> ResultActionsDsl.andReturnConverted(): T {
         val result = this.andReturn()
         return convertResult(result)
     }

@@ -19,18 +19,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
-import org.springframework.transaction.annotation.Isolation
-import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
-@SpringBootTest
-@Transactional(isolation = Isolation.READ_UNCOMMITTED)
 internal class FieldIntegrationTest : IntegrationTest() {
 
     val TEST_WKT =
@@ -73,13 +68,13 @@ internal class FieldIntegrationTest : IntegrationTest() {
         assertThat(response.geom.toText()).isEqualToIgnoringWhitespace(fieldForm.wkt)
         assertThat(response).hasNoNullFieldsOrProperties()
 
-        submitForm(FieldForm("Test Form", "Invalid WKT")).andExpectValidationError("wkt", GEOMETRY_INVALID_ERROR)
-        submitForm(FieldForm("Test Form", TEST_WKT_LINESTRING)).andExpectValidationError("wkt", GEOMETRY_SHAPE_ERROR)
-        submitForm(FieldForm("Test Form", TEST_WKT_INVALID)).andExpectValidationError("wkt", GEOMETRY_POLYGON_ERROR)
-        submitForm(FieldForm("Test Form", TEST_WKT_EMPTY)).andExpectValidationError("wkt", GEOMETRY_AREA_ERROR)
-        // TODO: Check overlap
-        // submitForm(FieldForm("Test Form", TEST_WKT_OVERLAP)).andExpectValidationError("wkt", GEOMETRY_OVERLAP_ERROR)
-        submitForm(FieldForm("Test Form", TEST_WKT_OTHER_COUNTRY)).andExpectValidationError(
+        submitForm(FieldForm("Test Field", "Invalid WKT")).andExpectValidationError("wkt", GEOMETRY_INVALID_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_LINESTRING)).andExpectValidationError("wkt", GEOMETRY_SHAPE_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_INVALID)).andExpectValidationError("wkt", GEOMETRY_POLYGON_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_EMPTY)).andExpectValidationError("wkt", GEOMETRY_AREA_ERROR)
+        // TODO check overlap
+        // submitForm(FieldForm("Test Field", TEST_WKT)).andExpectValidationError("wkt", GEOMETRY_OVERLAP_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_OTHER_COUNTRY)).andExpectValidationError(
             "wkt",
             GEOMETRY_COUNTRY_ERROR
         )
@@ -146,7 +141,7 @@ internal class FieldIntegrationTest : IntegrationTest() {
             .andExpect { status { isNotFound } }
     }
 
-    private fun createField(name: String, wkt: String): FieldDto {
+    fun createField(name: String, wkt: String): FieldDto {
         return fieldService.addNewField(farm.id, FieldForm(name, wkt))
     }
 }

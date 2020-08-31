@@ -6,6 +6,7 @@ package cz.cleverfarm.interview.farmassignment.generated;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Country;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Farm;
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field;
+import cz.cleverfarm.interview.farmassignment.generated.tables.FlywaySchemaHistory;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
@@ -17,7 +18,7 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Public extends SchemaImpl {
 
-  private static final long serialVersionUID = 707089798;
+  private static final long serialVersionUID = 919789232;
 
   /** The reference instance of <code>public</code> */
   public static final Public PUBLIC = new Public();
@@ -31,6 +32,10 @@ public class Public extends SchemaImpl {
   /** The table <code>public.field</code>. */
   public final Field FIELD = Field.FIELD;
 
+  /** The table <code>public.flyway_schema_history</code>. */
+  public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY =
+      FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
+
   /** No further instances allowed */
   private Public() {
     super("public", null);
@@ -43,6 +48,7 @@ public class Public extends SchemaImpl {
 
   @Override
   public final List<Table<?>> getTables() {
-    return Arrays.<Table<?>>asList(Country.COUNTRY, Farm.FARM, Field.FIELD);
+    return Arrays.<Table<?>>asList(
+        Country.COUNTRY, Farm.FARM, Field.FIELD, FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY);
   }
 }
