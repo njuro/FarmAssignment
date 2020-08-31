@@ -49,7 +49,7 @@ internal class FieldIntegrationTest : IntegrationTest() {
 
     @BeforeEach
     fun setUp() {
-        farm = farmService.addNewFarm(FarmForm("Test Farm", null))
+        farm = farmService.addNewFarm(FarmForm("Test Farm", "CZE", null))
     }
 
     @Test

@@ -25,7 +25,7 @@ class FieldService @Autowired constructor(
             ?: throw FormValidationException(FARM_NOT_FOUND)
 
         val geometry = geometryService.parseGeometry(field.wkt)
-        geometryService.validateGeometry(geometry)
+        geometryService.validateGeometry(geometry, farm.country)
 
         val record = jooq.newRecord(FIELD, field)
             .with(FIELD.ID, UUID.randomUUID())
@@ -43,8 +43,9 @@ class FieldService @Autowired constructor(
     }
 
     fun updateField(farmId: UUID, id: UUID, updatedField: FieldForm): FieldDto? {
+        val farm = farmService.findFarmById(farmId)
         val geometry = geometryService.parseGeometry(updatedField.wkt)
-        geometryService.validateGeometry(geometry, updatingId = id)
+        geometryService.validateGeometry(geometry, farm!!.country, updatingId = id)
 
         val updated =
             jooq.update(FIELD).set(

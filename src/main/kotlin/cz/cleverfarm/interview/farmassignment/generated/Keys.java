@@ -41,6 +41,8 @@ public class Keys {
   // FOREIGN KEY definitions
   // -------------------------------------------------------------------------
 
+  public static final ForeignKey<FarmRecord, CountryRecord> FARM__FK_FARM_COUNTRY =
+      ForeignKeys0.FARM__FK_FARM_COUNTRY;
   public static final ForeignKey<FieldRecord, FarmRecord> FIELD__FK_FIELD_FARM =
       ForeignKeys0.FIELD__FK_FIELD_FARM;
 
@@ -66,6 +68,13 @@ public class Keys {
   }
 
   private static class ForeignKeys0 {
+    public static final ForeignKey<FarmRecord, CountryRecord> FARM__FK_FARM_COUNTRY =
+        Internal.createForeignKey(
+            Keys.COUNTRY_PKEY,
+            Farm.FARM,
+            "fk_farm_country",
+            new TableField[] {Farm.FARM.COUNTRY},
+            true);
     public static final ForeignKey<FieldRecord, FarmRecord> FIELD__FK_FIELD_FARM =
         Internal.createForeignKey(
             Keys.FARM_PKEY,

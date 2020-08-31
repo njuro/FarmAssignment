@@ -9,6 +9,7 @@ data class FarmDto(
     val id: UUID,
     val name: String,
     val note: String?,
+    val country: String,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime
 ) {

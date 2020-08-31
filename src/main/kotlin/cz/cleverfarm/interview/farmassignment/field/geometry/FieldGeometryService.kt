@@ -16,7 +16,7 @@ import cz.cleverfarm.interview.farmassignment.generated.tables.Country.COUNTRY
 import cz.cleverfarm.interview.farmassignment.generated.tables.Field.FIELD
 import cz.cleverfarm.interview.farmassignment.validation.FormValidationException
 import org.jooq.DSLContext
-import org.jooq.impl.DSL
+import org.jooq.impl.DSL.count
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -36,7 +36,7 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
         }
     }
 
-    fun validateGeometry(geom: Geometry, countryCode: String? = "CZE", updatingId: UUID? = null) {
+    fun validateGeometry(geom: Geometry, countryCode: String, updatingId: UUID? = null) {
         if (geom !is Polygon) {
             throw FormValidationException(WKT_FIELD, GEOMETRY_SHAPE_ERROR)
         }
@@ -49,11 +49,11 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
             throw FormValidationException(WKT_FIELD, GEOMETRY_AREA_ERROR)
         }
 
-        val overlapping = jooq.select(DSL.count()).from(FIELD)
+        val overlaps = jooq.select(count()).from(FIELD)
             .where("ST_INTERSECTS({0}, ST_GEOMFROMTEXT({1}, $SRID))", FIELD.GEOM, geom.toText())
             .and(FIELD.ID.notEqual(updatingId))
-            .fetchOneInto(Integer::class.java)
-        if (overlapping > 0) {
+            .fetchOneInto(Integer::class.java) > 0
+        if (overlaps) {
             throw FormValidationException(WKT_FIELD, GEOMETRY_OVERLAP_ERROR)
         }
 

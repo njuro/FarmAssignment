@@ -20,7 +20,7 @@ import java.util.UUID;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Farm extends TableImpl<FarmRecord> {
 
-  private static final long serialVersionUID = -1008803659;
+  private static final long serialVersionUID = 2092024279;
 
   /** The reference instance of <code>public.farm</code> */
   public static final Farm FARM = new Farm();
@@ -66,6 +66,11 @@ public class Farm extends TableImpl<FarmRecord> {
           this,
           "");
 
+  /** The column <code>public.farm.country</code>. */
+  public final TableField<FarmRecord, String> COUNTRY =
+      createField(
+          DSL.name("country"), org.jooq.impl.SQLDataType.VARCHAR(3).nullable(false), this, "");
+
   /** Create a <code>public.farm</code> table reference */
   public Farm() {
     this(DSL.name("farm"), null);
@@ -109,6 +114,15 @@ public class Farm extends TableImpl<FarmRecord> {
   }
 
   @Override
+  public List<ForeignKey<FarmRecord, ?>> getReferences() {
+    return Arrays.<ForeignKey<FarmRecord, ?>>asList(Keys.FARM__FK_FARM_COUNTRY);
+  }
+
+  public Country country() {
+    return new Country(this, Keys.FARM__FK_FARM_COUNTRY);
+  }
+
+  @Override
   public Farm as(String alias) {
     return new Farm(DSL.name(alias), this);
   }
@@ -131,11 +145,11 @@ public class Farm extends TableImpl<FarmRecord> {
   }
 
   // -------------------------------------------------------------------------
-  // Row5 type methods
+  // Row6 type methods
   // -------------------------------------------------------------------------
 
   @Override
-  public Row5<UUID, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
-    return (Row5) super.fieldsRow();
+  public Row6<UUID, String, String, LocalDateTime, LocalDateTime, String> fieldsRow() {
+    return (Row6) super.fieldsRow();
   }
 }
