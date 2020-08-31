@@ -25,7 +25,10 @@ import java.util.UUID
 class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) {
 
     private val WKT_FIELD = "wkt"
+
+    /** Identifier of Spatial Reference System (SRS) used for representing field borders.  */
     private val SRID = 4326
+
     private val wktReader = WKTReader(GeometryFactory(PrecisionModel(), SRID))
 
     /**
