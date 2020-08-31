@@ -8,7 +8,7 @@ import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Service
@@ -29,8 +29,8 @@ class FieldService @Autowired constructor(
             .with(FIELD.ID, UUID.randomUUID())
             .with(FIELD.FARM_ID, farmId)
             .with(FIELD.GEOM, geometry)
-            .with(FIELD.CREATED_AT, OffsetDateTime.now())
-            .with(FIELD.UPDATED_AT, OffsetDateTime.now())
+            .with(FIELD.CREATED_AT, LocalDateTime.now())
+            .with(FIELD.UPDATED_AT, LocalDateTime.now())
         record.store()
         return record.into(FieldDto::class.java).apply { this.farm = farm }
     }
@@ -41,8 +41,15 @@ class FieldService @Autowired constructor(
     }
 
     fun updateField(farmId: UUID, id: UUID, updatedField: FieldForm): FieldDto? {
+        val geometry = geometryService.parseGeometry(updatedField.wkt)
+        geometryService.validateGeometry(geometry, updatingId = id)
+
         val updated =
-            jooq.update(FIELD).set(jooq.newRecord(FIELD, updatedField).with(FIELD.UPDATED_AT, OffsetDateTime.now()))
+            jooq.update(FIELD).set(
+                jooq.newRecord(FIELD, updatedField)
+                    .with(FIELD.UPDATED_AT, LocalDateTime.now())
+                    .with(FIELD.GEOM, geometry)
+            )
                 .where(FIELD.ID.eq(id).and(FIELD.FARM_ID.eq(farmId))).execute() > 0
         return if (updated) findFieldById(farmId, id) else null
     }

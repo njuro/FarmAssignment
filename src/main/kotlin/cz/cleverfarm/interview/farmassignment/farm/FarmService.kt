@@ -7,7 +7,7 @@ import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Service
@@ -17,8 +17,8 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
     fun addNewFarm(farm: FarmForm): FarmDto {
         val record = jooq.newRecord(FARM, farm)
             .with(FARM.ID, UUID.randomUUID())
-            .with(FARM.CREATED_AT, OffsetDateTime.now())
-            .with(FARM.UPDATED_AT, OffsetDateTime.now())
+            .with(FARM.CREATED_AT, LocalDateTime.now())
+            .with(FARM.UPDATED_AT, LocalDateTime.now())
         record.store()
         return record.into(FarmDto::class.java)
     }
@@ -45,7 +45,7 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
 
     fun updateFarm(id: UUID, updatedFarm: FarmForm): FarmDto? {
         val updated =
-            jooq.update(FARM).set(jooq.newRecord(FARM, updatedFarm).with(FARM.UPDATED_AT, OffsetDateTime.now()))
+            jooq.update(FARM).set(jooq.newRecord(FARM, updatedFarm).with(FARM.UPDATED_AT, LocalDateTime.now()))
                 .where(FARM.ID.eq(id)).execute() > 0
         return if (updated) findFarmById(id, fetchFields = true) else null
     }

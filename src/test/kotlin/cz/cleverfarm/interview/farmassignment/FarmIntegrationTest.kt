@@ -56,7 +56,7 @@ class FarmIntegrationTest : IntegrationTest() {
         val response = mockMvc.get(API_ROOT_FARMS + FARM_ID_VARIABLE, testFarm.id)
             .andExpect { status { isOk } }.andReturnConverted<FarmDto>()
 
-        assertThat(response.id).isEqualTo(testFarm.id).hasNoNullFieldsOrProperties()
+        assertThat(response).isEqualToComparingFieldByField(testFarm).hasNoNullFieldsOrProperties()
     }
 
     @Test
@@ -69,6 +69,7 @@ class FarmIntegrationTest : IntegrationTest() {
             content = objectMapper.writeValueAsString(updatedForm)
         }.andExpect { status { isOk } }.andReturnConverted<FarmDto>()
 
+        assertThat(response.updatedAt).isNotEqualTo(testFarm.updatedAt)
         assertThat(response).isEqualToComparingOnlyGivenFields(updatedForm, "name", "note")
             .extracting(FarmDto::id).isEqualTo(testFarm.id)
     }

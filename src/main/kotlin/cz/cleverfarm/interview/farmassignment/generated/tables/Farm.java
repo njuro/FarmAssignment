@@ -11,7 +11,7 @@ import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Farm extends TableImpl<FarmRecord> {
 
-  private static final long serialVersionUID = 233780357;
+  private static final long serialVersionUID = -1008803659;
 
   /** The reference instance of <code>public.farm</code> */
   public static final Farm FARM = new Farm();
@@ -45,26 +45,24 @@ public class Farm extends TableImpl<FarmRecord> {
       createField(DSL.name("note"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
   /** The column <code>public.farm.created_at</code>. */
-  public final TableField<FarmRecord, OffsetDateTime> CREATED_AT =
+  public final TableField<FarmRecord, LocalDateTime> CREATED_AT =
       createField(
           DSL.name("created_at"),
-          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE
+          org.jooq.impl.SQLDataType.LOCALDATETIME
               .nullable(false)
               .defaultValue(
-                  org.jooq.impl.DSL.field(
-                      "now()", org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE)),
+                  org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)),
           this,
           "");
 
   /** The column <code>public.farm.updated_at</code>. */
-  public final TableField<FarmRecord, OffsetDateTime> UPDATED_AT =
+  public final TableField<FarmRecord, LocalDateTime> UPDATED_AT =
       createField(
           DSL.name("updated_at"),
-          org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE
+          org.jooq.impl.SQLDataType.LOCALDATETIME
               .nullable(false)
               .defaultValue(
-                  org.jooq.impl.DSL.field(
-                      "now()", org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE)),
+                  org.jooq.impl.DSL.field("now()", org.jooq.impl.SQLDataType.LOCALDATETIME)),
           this,
           "");
 
@@ -137,7 +135,7 @@ public class Farm extends TableImpl<FarmRecord> {
   // -------------------------------------------------------------------------
 
   @Override
-  public Row5<UUID, String, String, OffsetDateTime, OffsetDateTime> fieldsRow() {
+  public Row5<UUID, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
     return (Row5) super.fieldsRow();
   }
 }

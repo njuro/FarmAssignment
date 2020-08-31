@@ -1,21 +1,21 @@
 create table if not exists farm
 (
-    id         uuid                     not null,
-    name       varchar(255)             not null,
+    id         uuid         not null,
+    name       varchar(255) not null,
     note       varchar(255),
-    created_at timestamp with time zone not null default now(),
-    updated_at timestamp with time zone not null default now(),
+    created_at timestamp    not null default now(),
+    updated_at timestamp    not null default now(),
     primary key (id)
 );
 
 create table if not exists field
 (
-    id         uuid                     not null,
-    name       varchar(255)             not null,
-    farm_id    uuid                     not null,
-    created_at timestamp with time zone not null default now(),
-    updated_at timestamp with time zone not null default now(),
-    geom       geometry(Polygon, 4326)  not null,
+    id         uuid                    not null,
+    name       varchar(255)            not null,
+    farm_id    uuid                    not null,
+    created_at timestamp               not null default now(),
+    updated_at timestamp               not null default now(),
+    geom       geometry(Polygon, 4326) not null,
     primary key (id)
 );
 
