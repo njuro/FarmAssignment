@@ -1,3 +1,4 @@
+// Mappings for API endpoints
 package cz.cleverfarm.interview.farmassignment.common
 
 const val FARM_ID_VARIABLE_NAME = "farmId"

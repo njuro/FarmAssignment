@@ -9,6 +9,7 @@ import com.vividsolutions.jts.io.WKTReader
 class GeometryDeserializer : JsonDeserializer<Geometry>() {
     private val wktReader = WKTReader()
 
+    /** Deserializes geometry from WKT representation (wrapped in JSON object). */
     override fun deserialize(parser: JsonParser?, context: DeserializationContext?): Geometry? {
         val json = parser?.valueAsString ?: return null
         return wktReader.read(json)

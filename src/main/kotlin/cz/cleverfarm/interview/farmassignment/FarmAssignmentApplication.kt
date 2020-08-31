@@ -16,6 +16,7 @@ fun main(args: Array<String>) {
 @Configuration
 class TimeZoneConfiguration {
 
+    /** Sets default application-wide timezone to be used when generating timestamps. */
     @Bean
     fun timeZone(): TimeZone? {
         val defaultTimeZone = TimeZone.getTimeZone("UTC")

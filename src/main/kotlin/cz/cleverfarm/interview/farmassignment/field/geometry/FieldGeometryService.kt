@@ -28,6 +28,13 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
     private val SRID = 4326
     private val wktReader = WKTReader(GeometryFactory(PrecisionModel(), SRID))
 
+    /**
+     * Parses field borders from WKT representation.
+     *
+     * @param wkt representation of field borders in Well-known Text language
+     * @return parsed borders
+     * @throws FormValidationException if WKT representation is invalid
+     * */
     fun parseBorders(wkt: String?): Geometry {
         try {
             return wktReader.read(wkt)
@@ -36,6 +43,17 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
         }
     }
 
+    /**
+     * Validates field borders.
+     *
+     * @param borders field borders
+     * @param countryCode country code of farm this field belongs to
+     * @param updatingId (optional) ID of field being updated
+     *
+     * @throws FormValidationException if borders are invalid.
+     * @see [cz.cleverfarm.interview.farmassignment.field.FieldDto.borders]
+     * @see [cz.cleverfarm.interview.farmassignment.farm.FarmDto.country]
+     * */
     fun validateBorders(borders: Geometry, countryCode: String, updatingId: UUID? = null) {
         if (borders !is Polygon) {
             throw FormValidationException(WKT_FIELD, BORDERS_SHAPE_ERROR)
@@ -62,6 +80,15 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
         }
     }
 
+    /**
+     * Get borders of country.
+     *
+     * @param countryCode ISO 3 country code
+     * @return borders of country
+     *
+     * @throws IllegalArgumentException if country with given code is not in database
+     * @see [cz.cleverfarm.interview.farmassignment.farm.FarmDto.country]
+     * */
     private fun getCountryBorders(countryCode: String): Geometry {
         return jooq.select(COUNTRY.BORDERS)
             .from(COUNTRY)

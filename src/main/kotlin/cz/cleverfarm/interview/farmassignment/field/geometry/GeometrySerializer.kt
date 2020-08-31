@@ -9,6 +9,7 @@ import com.vividsolutions.jts.io.WKTWriter
 class GeometrySerializer : JsonSerializer<Geometry>() {
     private val wktWriter = WKTWriter()
 
+    /** Serializes geometry to WKT representation (wrapped in JSON object). */
     override fun serialize(geom: Geometry?, generator: JsonGenerator?, provider: SerializerProvider?) {
         if (geom == null) {
             generator?.writeNull()

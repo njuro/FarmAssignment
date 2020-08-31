@@ -18,8 +18,14 @@ import java.util.UUID
 @Transactional
 class FarmService @Autowired constructor(private val jooq: DSLContext) {
 
+    /**
+     * Adds new farm to the system.
+     *
+     * @param farm form with farm data
+     * @return created farm
+     * */
     fun addNewFarm(farm: FarmForm): FarmDto {
-        validateCountry(farm.country!!)
+        validateCountryCode(farm.country!!)
 
         val record = jooq.newRecord(FARM, farm)
             .with(FARM.ID, UUID.randomUUID())
@@ -30,6 +36,12 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
         return record.into(FarmDto::class.java)
     }
 
+    /**
+     * Retrieves list of farms and their fields in the system with pagination applied.
+     *
+     * @param page which results page to return. Zero-based indexing.
+     * @param pageSize how many results per one page
+     * */
     fun findAllFarms(page: Int, pageSize: Int): List<FarmDto> {
         val farms =
             jooq.selectFrom(FARM).orderBy(FARM.UPDATED_AT.desc()).offset(page * pageSize).limit(pageSize)
@@ -41,6 +53,13 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
         return farms
     }
 
+    /**
+     * Retrieves farm.
+     *
+     * @param id unique identifier of the farm
+     * @param fetchFields if true, also returns fields of the farm
+     * @return retrieved farm, or `null` if none was found with given ID
+     * */
     fun findFarmById(id: UUID, fetchFields: Boolean = false): FarmDto? {
         val farmRecord = jooq.fetchOne(FARM.where(FARM.ID.eq(id))) ?: return null
         val farm = farmRecord.into(FarmDto::class.java)
@@ -52,6 +71,14 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
         return farm
     }
 
+    /**
+     * Updates farm.
+     *
+     * @param id unique identifier of the farm
+     * @param updatedFarm form with updated values (only name and note can be updated)
+     * @return updated farm or `null` if no farm was found with given ID
+     *
+     * */
     fun updateFarm(id: UUID, updatedFarm: FarmForm): FarmDto? {
         val updated =
             jooq.update(FARM).set(
@@ -65,12 +92,23 @@ class FarmService @Autowired constructor(private val jooq: DSLContext) {
         return if (updated) findFarmById(id, fetchFields = true) else null
     }
 
+    /**
+     *  Deletes farm and all its fields.
+     *
+     *  @param id unique identifier of the farm
+     *  @return true if farm was deleted, false otherwise
+     * */
     fun deleteFarm(id: UUID): Boolean {
         jooq.deleteFrom(FIELD).where(FIELD.FARM_ID.eq(id)).execute()
         return jooq.deleteFrom(FARM).where(FARM.ID.eq(id)).execute() > 0
     }
 
-    private fun validateCountry(countryCode: String) {
+    /**
+     * Validates country code of farm.
+     *
+     * @throws FormValidationException if country code is not registered in the database
+     * */
+    private fun validateCountryCode(countryCode: String) {
         val countryExists = jooq.select(count()).from(COUNTRY).where(COUNTRY.CODE.equalIgnoreCase(countryCode))
             .fetchOneInto(Integer::class.java) > 0
         if (!countryExists) {
