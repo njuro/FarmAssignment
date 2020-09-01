@@ -38,6 +38,7 @@ Full text of assignment is [available here](src/main/resources/static/assignment
 5. To log out head to `/logout` page
 
 ## Notes
+- First run of integration tests may take a bit longer, as `postgis` docker image must be downloaded if it is not present in the system already
 - Several sample farms are inserted to database at first launch
 - Field borders are represented as [WKT](https://www.wikiwand.com/en/Well-known_text_representation_of_geometry)
 - To generate WKT from map area you can use this utility - [https://arthur-e.github.io/Wicket/sandbox-gmaps3.html](https://arthur-e.github.io/Wicket/sandbox-gmaps3.html)
