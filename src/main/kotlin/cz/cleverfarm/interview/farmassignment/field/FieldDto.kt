@@ -6,7 +6,7 @@ import com.vividsolutions.jts.geom.Geometry
 import cz.cleverfarm.interview.farmassignment.farm.FarmDto
 import cz.cleverfarm.interview.farmassignment.field.geometry.GeometryDeserializer
 import cz.cleverfarm.interview.farmassignment.field.geometry.GeometrySerializer
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.util.UUID
 
 /** DTO for field belonging to farm. */
@@ -21,10 +21,10 @@ data class FieldDto(
     @field:JsonSerialize(using = GeometrySerializer::class) @field:JsonDeserialize(using = GeometryDeserializer::class) val borders: Geometry,
 
     /** Date and time when this field was added to the system. */
-    val createdAt: OffsetDateTime,
+    val createdAt: LocalDateTime,
 
     /** Date and time when this field was last updated. */
-    val updatedAt: OffsetDateTime
+    val updatedAt: LocalDateTime
 ) {
 
     /** Farm this field belongs to. */

@@ -1,7 +1,7 @@
 package cz.cleverfarm.interview.farmassignment.farm
 
 import cz.cleverfarm.interview.farmassignment.field.FieldDto
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.util.ArrayList
 import java.util.UUID
 
@@ -20,10 +20,10 @@ data class FarmDto(
     val country: String,
 
     /** Date and time when this farm was added to the system. */
-    val createdAt: OffsetDateTime,
+    val createdAt: LocalDateTime,
 
     /** Date and time when this farm was last updated. */
-    val updatedAt: OffsetDateTime
+    val updatedAt: LocalDateTime
 ) {
     /** List of fields belonging to this farm. */
     var fields: List<FieldDto> = ArrayList()
