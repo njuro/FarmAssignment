@@ -5,6 +5,7 @@ import cz.cleverfarm.interview.farmassignment.common.FARM_ID_VARIABLE_NAME
 import cz.cleverfarm.interview.farmassignment.common.FIELD_ID_VARIABLE
 import cz.cleverfarm.interview.farmassignment.common.FIELD_ID_VARIABLE_NAME
 import cz.cleverfarm.interview.farmassignment.common.FIELD_NOT_FOUND
+import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,6 +24,7 @@ import javax.validation.Valid
 @RequestMapping(API_ROOT_FIELDS)
 class FieldRestController @Autowired constructor(private val fieldService: FieldService) {
 
+    @ApiOperation("Adds new field to the farm")
     @PutMapping
     fun addNewField(
         @PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID,
@@ -31,6 +33,7 @@ class FieldRestController @Autowired constructor(private val fieldService: Field
         return fieldService.addNewField(farmId, field)
     }
 
+    @ApiOperation("Retrieves field by ID")
     @GetMapping(FIELD_ID_VARIABLE)
     fun findField(
         @PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID,
@@ -40,6 +43,7 @@ class FieldRestController @Autowired constructor(private val fieldService: Field
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FIELD_NOT_FOUND)
     }
 
+    @ApiOperation("Updates field")
     @PostMapping(FIELD_ID_VARIABLE)
     fun updateField(
         @PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID,
@@ -50,6 +54,7 @@ class FieldRestController @Autowired constructor(private val fieldService: Field
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, FIELD_NOT_FOUND)
     }
 
+    @ApiOperation("Deletes field")
     @DeleteMapping(FIELD_ID_VARIABLE)
     fun deleteField(
         @PathVariable(name = FARM_ID_VARIABLE_NAME) farmId: UUID,
