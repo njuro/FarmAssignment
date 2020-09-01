@@ -176,6 +176,32 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--suppress MavenModelInspection -->
+                    <driver>${spring.datasource.driver-class-name}</driver>
+                    <!--suppress MavenModelInspection -->
+                    <url>${spring.datasource.url}</url>
+                    <!--suppress MavenModelInspection -->
+                    <user>${spring.datasource.username}</user>
+                    <!--suppress MavenModelInspection -->
+                    <password>${spring.datasource.password}</password>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migration</location>
+                    </locations>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
                 <executions>
