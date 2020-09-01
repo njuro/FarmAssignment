@@ -4,6 +4,7 @@ import cz.cleverfarm.interview.farmassignment.common.API_ROOT_FIELDS
 import cz.cleverfarm.interview.farmassignment.common.BORDERS_AREA_ERROR
 import cz.cleverfarm.interview.farmassignment.common.BORDERS_COUNTRY_ERROR
 import cz.cleverfarm.interview.farmassignment.common.BORDERS_INVALID_ERROR
+import cz.cleverfarm.interview.farmassignment.common.BORDERS_OVERLAP_ERROR
 import cz.cleverfarm.interview.farmassignment.common.BORDERS_POLYGON_ERROR
 import cz.cleverfarm.interview.farmassignment.common.BORDERS_SHAPE_ERROR
 import cz.cleverfarm.interview.farmassignment.common.FARM_NOT_FOUND
@@ -72,8 +73,8 @@ internal class FieldIntegrationTest : IntegrationTest() {
         submitForm(FieldForm("Test Field", TEST_WKT_LINESTRING)).andExpectValidationError("wkt", BORDERS_SHAPE_ERROR)
         submitForm(FieldForm("Test Field", TEST_WKT_INVALID)).andExpectValidationError("wkt", BORDERS_POLYGON_ERROR)
         submitForm(FieldForm("Test Field", TEST_WKT_EMPTY)).andExpectValidationError("wkt", BORDERS_AREA_ERROR)
-        // TODO check overlap
-        // submitForm(FieldForm("Test Field", TEST_WKT)).andExpectValidationError("wkt", GEOMETRY_OVERLAP_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT)).andExpectValidationError("wkt", BORDERS_OVERLAP_ERROR)
+        submitForm(FieldForm("Test Field", TEST_WKT_OVERLAP)).andExpectValidationError("wkt", BORDERS_OVERLAP_ERROR)
         submitForm(FieldForm("Test Field", TEST_WKT_OTHER_COUNTRY)).andExpectValidationError(
             "wkt",
             BORDERS_COUNTRY_ERROR

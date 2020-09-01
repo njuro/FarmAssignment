@@ -17,6 +17,7 @@ import cz.cleverfarm.interview.farmassignment.generated.tables.Field.FIELD
 import cz.cleverfarm.interview.farmassignment.validation.FormValidationException
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.count
+import org.jooq.impl.DSL.noCondition
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -72,7 +73,7 @@ class FieldGeometryService @Autowired constructor(private val jooq: DSLContext) 
 
         val overlaps = jooq.select(count()).from(FIELD)
             .where("ST_INTERSECTS({0}, ST_GEOMFROMTEXT({1}, $SRID))", FIELD.BORDERS, borders.toText())
-            .and(FIELD.ID.notEqual(updatingId))
+            .and(if (updatingId != null) FIELD.ID.notEqual(updatingId) else noCondition())
             .fetchOneInto(Integer::class.java) > 0
         if (overlaps) {
             throw FormValidationException(WKT_FIELD, BORDERS_OVERLAP_ERROR)
